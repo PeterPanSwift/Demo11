@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>課後問卷｜寄往 B612</title>
+<meta name="description" content="課後問卷：留下你的評價、問題與心得。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='20' r='11' fill='%23e8b86a'/%3E%3Cpath d='M16 2l2 5 5 .5-4 3.5 1.2 5L16 13.4 11.8 16 13 11l-4-3.5 5-.5z' fill='%23f2c14e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f8f2e4;
+    --ink: #3b3a4a;
+    --ink-soft: #6d6a7c;
+    --card: rgba(255, 252, 244, 0.86);
+    --card-edge: rgba(120, 100, 70, 0.18);
+    --line: rgba(110, 140, 180, 0.28);
+    --sky: #9cc3e0;
+    --sky-2: #c6dcef;
+    --peach: #f3c6a5;
+    --lilac: #cdbfe3;
+    --gold: #f2b134;
+    --gold-soft: #f7d98b;
+    --rose: #d6584f;
+    --leaf: #6f9a6a;
+    --planet-1: #f3dca8;
+    --planet-2: #d9a86c;
+    --focus: #5b8fc4;
+    --star-off: #d9d2c0;
+    --danger: #b8463e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1c2340;
+      --ink: #f1ead8;
+      --ink-soft: #b9b4c9;
+      --card: rgba(36, 44, 78, 0.82);
+      --card-edge: rgba(247, 217, 139, 0.18);
+      --line: rgba(200, 210, 240, 0.18);
+      --sky: #2f4a7c;
+      --sky-2: #3a3f78;
+      --peach: #6a4a6e;
+      --lilac: #4a3f7a;
+      --planet-1: #e9c98a;
+      --planet-2: #b07d4a;
+      --focus: #9cc3e0;
+      --star-off: #4a5378;
+      --danger: #f0938a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1c2340;
+    --ink: #f1ead8;
+    --ink-soft: #b9b4c9;
+    --card: rgba(36, 44, 78, 0.82);
+    --card-edge: rgba(247, 217, 139, 0.18);
+    --line: rgba(200, 210, 240, 0.18);
+    --sky: #2f4a7c;
+    --sky-2: #3a3f78;
+    --peach: #6a4a6e;
+    --lilac: #4a3f7a;
+    --planet-1: #e9c98a;
+    --planet-2: #b07d4a;
+    --focus: #9cc3e0;
+    --star-off: #4a5378;
+    --danger: #f0938a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "LXGW WenKai TC", "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ---------- 水彩背景 ---------- */
+  .washes {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: -2; pointer-events: none;
+  }
+  .grain {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: .22; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .grain { mix-blend-mode: overlay; opacity: .3; }
+  }
+  :root[data-theme="dark"] .grain { mix-blend-mode: overlay; opacity: .3; }
+
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 12px 16px 64px;
+  }
+
+  /* ---------- 插畫 ---------- */
+  .scene { display: block; width: 100%; height: auto; max-height: 340px; margin: 0 auto -18px; }
+  .twinkle { animation: twinkle 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .twinkle:nth-of-type(2n) { animation-delay: -1.1s; animation-duration: 4s; }
+  .twinkle:nth-of-type(3n) { animation-delay: -2.3s; animation-duration: 2.6s; }
+  @keyframes twinkle { 0%,100% { opacity: .95; transform: scale(1); } 50% { opacity: .35; transform: scale(.75); } }
+  .scarf { animation: scarf 2.8s ease-in-out infinite; transform-origin: 204px 94px; }
+  @keyframes scarf { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-7deg) scaleX(1.06); } }
+  .smoke circle { animation: smoke 4s ease-in-out infinite; }
+  .smoke circle:nth-child(2) { animation-delay: -1.3s; }
+  .smoke circle:nth-child(3) { animation-delay: -2.6s; }
+  @keyframes smoke { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: .55; } 100% { opacity: 0; transform: translateY(-14px); } }
+  .shooting { animation: shoot 7s ease-in 2s infinite; opacity: 0; }
+  @keyframes shoot { 0% { opacity: 0; transform: translate(0,0); } 3% { opacity: 1; } 12% { opacity: 0; transform: translate(-140px, 70px); } 100% { opacity: 0; transform: translate(-140px, 70px); } }
+  .planet-spin { animation: bob 6s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+  /* ---------- 卡片 ---------- */
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1.5px solid var(--card-edge);
+    border-radius: 28px 10px 30px 12px / 12px 30px 10px 28px;
+    padding: 30px 26px 28px;
+    box-shadow: 0 18px 40px -22px rgba(60, 50, 90, .45), 0 2px 0 rgba(255,255,255,.4) inset;
+    backdrop-filter: blur(3px);
+  }
+  .card::before {
+    /* 卡片角落的一抹水彩 */
+    content: ""; position: absolute; right: -14px; top: -16px; width: 90px; height: 90px;
+    background: radial-gradient(circle at 40% 40%, var(--gold-soft), transparent 68%);
+    filter: blur(6px); opacity: .8; pointer-events: none; border-radius: 50%;
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-size: clamp(26px, 6.5vw, 34px);
+    font-weight: 700;
+    letter-spacing: .04em;
+    line-height: 1.3;
+  }
+  h1 .accent { color: var(--gold); }
+  .lead { margin: 0 0 22px; color: var(--ink-soft); font-size: 16px; }
+
+  .field { margin: 0 0 22px; border: 0; padding: 0; }
+  .field > label, .field > legend {
+    display: flex; align-items: baseline; gap: 8px;
+    font-weight: 700; font-size: 18px; margin-bottom: 6px; padding: 0;
+  }
+  .hint { font-weight: 400; font-size: 14px; color: var(--ink-soft); }
+  .req { color: var(--rose); font-size: 14px; font-weight: 400; }
+
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+
+  input[type="text"], textarea {
+    width: 100%;
+    font: inherit; color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-bottom: 2px dashed var(--line);
+    padding: 6px 4px;
+    outline: none;
+    transition: border-color .2s, background-color .2s;
+  }
+  textarea {
+    min-height: 136px; resize: vertical;
+    line-height: 34px;
+    padding: 0 6px;
+    border: 0;
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 33px, var(--line) 33px, var(--line) 34px);
+    background-attachment: local;
+    border-radius: 6px;
+  }
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--focus);
+    background-color: rgba(156, 195, 224, .12);
+  }
+  ::placeholder { color: var(--ink-soft); opacity: .65; }
+  .count { text-align: right; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* 星星評分 */
+  .stars { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .stars input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .stars label {
+    cursor: pointer; line-height: 0; padding: 2px; border-radius: 50%;
+    transition: transform .15s ease;
+  }
+  .stars label svg { width: 40px; height: 40px; display: block; }
+  .stars label svg path { fill: var(--star-off); transition: fill .2s; }
+  .stars label.on svg path { fill: var(--gold); }
+  .stars label:hover { transform: rotate(-8deg) scale(1.1); }
+  .stars input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .rating-text { min-height: 1.7em; margin-top: 4px; color: var(--ink-soft); font-size: 15px; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  button {
+    font: inherit; cursor: pointer;
+  }
+  .submit {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%;
+    margin-top: 6px;
+    padding: 13px 22px;
+    font-size: 19px; font-weight: 700; letter-spacing: .08em;
+    color: #3b2e12;
+    background: radial-gradient(120% 140% at 30% 20%, #f9dd8f 0%, var(--gold) 60%, #e39b2a 100%);
+    border: 0;
+    border-radius: 999px 40px 999px 50px / 50px 999px 40px 999px;
+    box-shadow: 0 8px 18px -10px rgba(160, 100, 20, .8);
+    transition: transform .15s ease, box-shadow .15s ease, filter .2s;
+  }
+  .submit:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -10px rgba(160, 100, 20, .9); }
+  .submit:active { transform: translateY(0); }
+  .submit:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .submit[disabled] { filter: grayscale(.4) brightness(.95); cursor: wait; transform: none; }
+  .submit .plane { width: 22px; height: 22px; }
+
+  .error {
+    display: none; margin: 0 0 14px; padding: 10px 14px;
+    color: var(--danger); background: rgba(214, 88, 79, .1);
+    border-radius: 12px; font-size: 15px;
+  }
+  .error.show { display: block; }
+
+  /* 送出後 */
+  .thanks { display: none; text-align: center; padding: 12px 4px 4px; }
+  .thanks.show { display: block; animation: rise .7s ease both; }
+  form.hide { display: none; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .thanks svg { width: 120px; height: 120px; }
+  .thanks h2 { margin: 6px 0 6px; font-size: 26px; }
+  .thanks blockquote {
+    margin: 18px auto 22px; max-width: 26em;
+    font-size: 18px; color: var(--ink-soft);
+  }
+  .thanks blockquote cite { display: block; margin-top: 4px; font-size: 14px; font-style: normal; }
+  .again {
+    background: transparent; color: var(--ink);
+    border: 1.5px dashed var(--ink-soft); border-radius: 999px;
+    padding: 8px 22px; font-size: 16px;
+  }
+  .again:hover { border-style: solid; }
+
+  footer { text-align: center; margin-top: 22px; font-size: 14px; color: var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 共用 SVG 濾鏡：讓色塊有水彩暈染的邊緣 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.6"/>
+    </filter>
+    <filter id="wash" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="28"/>
+    </filter>
+    <radialGradient id="planetFill" cx="40%" cy="30%" r="75%">
+      <stop offset="0" style="stop-color:var(--planet-1)"/>
+      <stop offset="1" style="stop-color:var(--planet-2)"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<!-- 背景水彩暈染 -->
+<svg class="washes" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g filter="url(#wash)">
+    <ellipse cx="500" cy="60" rx="720" ry="260" style="fill:var(--sky)" opacity=".75"/>
+    <ellipse cx="860" cy="300" rx="260" ry="200" style="fill:var(--sky-2)" opacity=".8"/>
+    <ellipse cx="120" cy="820" rx="320" ry="220" style="fill:var(--peach)" opacity=".6"/>
+    <ellipse cx="900" cy="900" rx="260" ry="200" style="fill:var(--lilac)" opacity=".55"/>
+    <ellipse cx="160" cy="320" rx="160" ry="120" style="fill:var(--gold-soft)" opacity=".35"/>
+  </g>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<main>
+  <!-- B612 小行星插畫 -->
+  <svg class="scene" viewBox="0 0 400 300" role="img" aria-label="一位圍著黃色圍巾的小男孩站在小行星 B612 上，旁邊有玻璃罩裡的玫瑰和小火山，天空佈滿星星">
+    <!-- 星星 -->
+    <g fill="#f2c14e">
+      <path class="twinkle" d="M40 40l2.5 6 6.5.5-5 4 1.6 6.3L40 53.4l-5.6 3.4 1.6-6.3-5-4 6.5-.5z"/>
+      <path class="twinkle" d="M330 30l2 4.8 5.2.4-4 3.3 1.3 5L330 40.8l-4.5 2.7 1.3-5-4-3.3 5.2-.4z"/>
+      <path class="twinkle" d="M95 110l1.6 3.8 4 .3-3 2.6 1 4-3.6-2.2-3.6 2.2 1-4-3-2.6 4-.3z"/>
+      <path class="twinkle" d="M300 105l1.6 3.8 4 .3-3 2.6 1 4-3.6-2.2-3.6 2.2 1-4-3-2.6 4-.3z"/>
+      <path class="twinkle" d="M370 150l1.3 3 3.2.3-2.5 2 .8 3.2-2.8-1.7-2.8 1.7.8-3.2-2.5-2 3.2-.3z"/>
+      <path class="twinkle" d="M210 22l1.3 3 3.2.3-2.5 2 .8 3.2-2.8-1.7-2.8 1.7.8-3.2-2.5-2 3.2-.3z"/>
+      <circle class="twinkle" cx="150" cy="38" r="2"/>
+      <circle class="twinkle" cx="260" cy="70" r="1.8"/>
+      <circle class="twinkle" cx="25" cy="150" r="1.6"/>
+      <circle class="twinkle" cx="380" cy="80" r="1.6"/>
+      <circle class="twinkle" cx="120" cy="70" r="1.4"/>
+    </g>
+    <!-- 流星 -->
+    <g class="shooting">
+      <line x1="360" y1="20" x2="395" y2="2" stroke="#f7d98b" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      <circle cx="360" cy="20" r="2.4" fill="#fff4cf"/>
+    </g>
+
+    <g class="planet-spin">
+      <!-- 星球 -->
+      <circle cx="200" cy="240" r="100" fill="url(#planetFill)" filter="url(#wc)"/>
+      <g filter="url(#wc)" opacity=".35">
+        <ellipse cx="165" cy="215" rx="22" ry="12" fill="#b9824c"/>
+        <ellipse cx="240" cy="270" rx="30" ry="15" fill="#b9824c"/>
+        <ellipse cx="190" cy="295" rx="18" ry="8" fill="#a9744a"/>
+        <ellipse cx="250" cy="205" rx="10" ry="6" fill="#a9744a"/>
+      </g>
+      <path d="M115 205 Q200 160 285 205" fill="none" stroke="#fff6dc" stroke-width="3" opacity=".35" filter="url(#wc)"/>
+
+      <!-- 小火山 -->
+      <g transform="translate(143 158) rotate(-35)">
+        <path d="M-11 1 L-5 -11 L5 -11 L11 1Z" fill="#8b6f5a" filter="url(#wc)"/>
+        <ellipse cx="0" cy="-11" rx="5" ry="1.6" fill="#d6584f" opacity=".8"/>
+        <g class="smoke" fill="#cfc6bb">
+          <circle cx="0" cy="-16" r="2.4"/>
+          <circle cx="2" cy="-20" r="2"/>
+          <circle cx="-1" cy="-24" r="1.6"/>
+        </g>
+      </g>
+      <g transform="translate(119 183) rotate(-55)">
+        <path d="M-8 1 L-4 -8 L4 -8 L8 1Z" fill="#7d6452" filter="url(#wc)"/>
+      </g>
+
+      <!-- 猴麵包樹幼苗 -->
+      <g transform="translate(288 194) rotate(62)" filter="url(#wc)">
+        <path d="M0 0 L0 -9" stroke="#6b5440" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="-3" cy="-10" r="3.4" fill="#7fa36f"/>
+        <circle cx="3" cy="-11" r="3" fill="#6f9a6a"/>
+      </g>
+
+      <!-- 玻璃罩裡的玫瑰 -->
+      <g transform="translate(262 162) rotate(38)">
+        <path d="M0 0 L0 -13" stroke="#5f8a57" stroke-width="1.6"/>
+        <path d="M0 -6 q4 -3 6 0 q-3 2 -6 0z" fill="#6f9a6a"/>
+        <circle cx="0" cy="-16" r="4.2" fill="#d6584f" filter="url(#wc)"/>
+        <path d="M-12 1 L-12 -18 A12 12 0 0 1 12 -18 L12 1Z" fill="#dff0fb" fill-opacity=".28" stroke="#ffffff" stroke-opacity=".75" stroke-width="1.2"/>
+        <path d="M-7 -24 Q-6 -27 -3 -28.5" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".8"/>
+        <rect x="-14" y="0" width="28" height="3" rx="1.5" fill="#b9824c"/>
+      </g>
+
+      <!-- 小男孩 -->
+      <g>
+        <path d="M195 118 L194 139" stroke="#4a6b8a" stroke-width="4" stroke-linecap="round"/>
+        <path d="M205 118 L206 139" stroke="#4a6b8a" stroke-width="4" stroke-linecap="round"/>
+        <path d="M188 122 L192 98 Q200 89 208 98 L212 122 Q200 127 188 122Z" fill="#6f9a6a" filter="url(#wc)"/>
+        <path d="M200 98 L200 122" stroke="#4f7a4c" stroke-width="1" opacity=".6"/>
+        <circle cx="200" cy="83" r="9.5" fill="#f6dcc4"/>
+        <circle cx="197" cy="85" r="1.8" fill="#eaa38f" opacity=".7"/>
+        <path d="M190 81 L192 70 L196.5 76 L200 66.5 L203.5 76 L208 70 L210 81 Q200 74 190 81Z" fill="#f2c14e" filter="url(#wc)"/>
+        <path class="scarf" d="M196 93 Q204 96 210 92 Q228 86 244 74 Q236 89 249 91 Q230 99 206 99 Q199 98 196 93Z" fill="#f2b134" filter="url(#wc)"/>
+      </g>
+    </g>
+  </svg>
+
+  <section class="card">
+    <form id="survey" novalidate>
+      <h1>寄往 <span class="accent">B612</span> 的一封信</h1>
+      <p class="lead">謝謝你今天陪我們走過這一段旅程。留下你的評價、問題與心得，我們會像照顧玫瑰一樣，好好讀每一句話。</p>
+
+      <p class="error" id="error" role="alert"></p>
+
+      <div class="row">
+        <div class="field">
+          <label for="name">你的名字 <span class="hint">選填</span></label>
+          <input type="text" id="name" name="name" maxlength="50" autocomplete="name" placeholder="例如：小王子">
+        </div>
+        <div class="field">
+          <label for="course">課程名稱 <span class="hint">選填</span></label>
+          <input type="text" id="course" name="course" maxlength="100" placeholder="例如：AI 種子班 第 3 堂">
+        </div>
+      </div>
+
+      <fieldset class="field">
+        <legend>整體評價 <span class="req">必填</span></legend>
+        <div class="stars" id="stars">
+          <input type="radio" name="rating" id="r1" value="1"><label for="r1" title="1 顆星"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6L12 17.2l-6 3.3 1.4-6.6-4.9-4.5 6.6-.7z"/></svg><span class="hp">1 顆星</span></label>
+          <input type="radio" name="rating" id="r2" value="2"><label for="r2" title="2 顆星"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6L12 17.2l-6 3.3 1.4-6.6-4.9-4.5 6.6-.7z"/></svg><span class="hp">2 顆星</span></label>
+          <input type="radio" name="rating" id="r3" value="3"><label for="r3" title="3 顆星"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6L12 17.2l-6 3.3 1.4-6.6-4.9-4.5 6.6-.7z"/></svg><span class="hp">3 顆星</span></label>
+          <input type="radio" name="rating" id="r4" value="4"><label for="r4" title="4 顆星"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6L12 17.2l-6 3.3 1.4-6.6-4.9-4.5 6.6-.7z"/></svg><span class="hp">4 顆星</span></label>
+          <input type="radio" name="rating" id="r5" value="5"><label for="r5" title="5 顆星"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.4 6.6L12 17.2l-6 3.3 1.4-6.6-4.9-4.5 6.6-.7z"/></svg><span class="hp">5 顆星</span></label>
+        </div>
+        <div class="rating-text" id="ratingText" aria-live="polite">點一顆星星，告訴我們這堂課的亮度。</div>
+      </fieldset>
+
+      <div class="field">
+        <label for="question">想問的問題 <span class="hint">選填，沒有問題也可以留白</span></label>
+        <textarea id="question" name="question" maxlength="2000" rows="4" placeholder="還有哪裡不太明白？像小王子一樣，一旦問了問題就不會放棄。"></textarea>
+        <div class="count" data-for="question">0 / 2000</div>
+      </div>
+
+      <div class="field">
+        <label for="reflection">課後心得 <span class="req">必填</span></label>
+        <textarea id="reflection" name="reflection" maxlength="2000" rows="5" placeholder="今天馴養了哪些新知識？哪一刻讓你覺得像看了四十四次日落？"></textarea>
+        <div class="count" data-for="reflection">0 / 2000</div>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="website">請勿填寫</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="submit" type="submit" id="submitBtn">
+        <svg class="plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 11.3L21 3.5l-4.6 17-5.2-6.1-4.6 3.1 1-5.6z" fill="#fff8e6" stroke="#3b2e12" stroke-width="1.3" stroke-linejoin="round"/><path d="M8.6 12.3L21 3.5" stroke="#3b2e12" stroke-width="1.1"/></svg>
+        <span id="submitLabel">寄出這封信</span>
+      </button>
+    </form>
+
+    <div class="thanks" id="thanks" aria-live="polite">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="72" r="34" fill="url(#planetFill)" filter="url(#wc)"/>
+        <g transform="translate(60 38)">
+          <path d="M0 0 L0 -14" stroke="#5f8a57" stroke-width="2"/>
+          <path d="M0 -6 q5 -4 8 0 q-4 3 -8 0z" fill="#6f9a6a"/>
+          <circle cx="0" cy="-18" r="6" fill="#d6584f" filter="url(#wc)"/>
+          <path d="M-15 2 L-15 -22 A15 15 0 0 1 15 -22 L15 2Z" fill="#dff0fb" fill-opacity=".28" stroke="#fff" stroke-opacity=".8" stroke-width="1.4"/>
+        </g>
+        <path class="twinkle" d="M20 22l1.6 3.8 4 .3-3 2.6 1 4-3.6-2.2-3.6 2.2 1-4-3-2.6 4-.3z" fill="#f2c14e"/>
+        <path class="twinkle" d="M100 30l1.3 3 3.2.3-2.5 2 .8 3.2-2.8-1.7-2.8 1.7.8-3.2-2.5-2 3.2-.3z" fill="#f2c14e"/>
+      </svg>
+      <h2>信已經飛往 B612 了 ✦</h2>
+      <p>謝謝你的回饋，我們都收到了。</p>
+      <blockquote>
+        「真正重要的東西，用眼睛是看不見的，要用心去看。」
+        <cite>——《小王子》</cite>
+      </blockquote>
+      <button class="again" type="button" id="again">再寫一封</button>
+    </div>
+  </section>
+
+  <footer>每一則回饋，都是夜空裡會笑的星星。</footer>
+</main>
+
+<script>
+(() => {
+  const form = document.getElementById('survey');
+  const stars = document.getElementById('stars');
+  const labels = [...stars.querySelectorAll('label')];
+  const ratingText = document.getElementById('ratingText');
+  const errorBox = document.getElementById('error');
+  const btn = document.getElementById('submitBtn');
+  const btnLabel = document.getElementById('submitLabel');
+  const thanks = document.getElementById('thanks');
+
+  const RATING_WORDS = {
+    1: '1 顆星：還需要更多時間來馴養彼此。',
+    2: '2 顆星：像剛冒芽的猴麵包樹，得再修剪修剪。',
+    3: '3 顆星：一朵不錯的玫瑰，但還不是獨一無二的那朵。',
+    4: '4 顆星：像一天看了好幾次日落，很美好。',
+    5: '5 顆星：獨一無二的玫瑰！像沙漠裡藏著一口井。'
+  };
+
+  // 網址帶 ?course=xxx 可預先填好課程名稱
+  const course = new URLSearchParams(location.search).get('course');
+  if (course) form.elements.course.value = course.slice(0, 100);
+
+  function paint(n) {
+    labels.forEach((l, i) => l.classList.toggle('on', i < n));
+  }
+  function currentRating() {
+    const c = form.querySelector('input[name="rating"]:checked');
+    return c ? Number(c.value) : 0;
+  }
+  labels.forEach((l, i) => {
+    l.addEventListener('mouseenter', () => paint(i + 1));
+    l.addEventListener('mouseleave', () => paint(currentRating()));
+  });
+  stars.addEventListener('change', () => {
+    const n = currentRating();
+    paint(n);
+    ratingText.textContent = RATING_WORDS[n];
+  });
+
+  document.querySelectorAll('.count').forEach(c => {
+    const ta = document.getElementById(c.dataset.for);
+    const update = () => { c.textContent = `${ta.value.length} / ${ta.maxLength}`; };
+    ta.addEventListener('input', update);
+  });
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add('show');
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.classList.remove('show');
+
+    const payload = {
+      name: form.elements.name.value.trim(),
+      course: form.elements.course.value.trim(),
+      rating: currentRating(),
+      question: form.elements.question.value.trim(),
+      reflection: form.elements.reflection.value.trim(),
+      website: form.elements.website.value
+    };
+    if (!payload.rating) { showError('請先點選星星，給這堂課一個評價。'); stars.querySelector('input').focus(); return; }
+    if (!payload.reflection) { showError('請寫下一點課後心得，一句話也很好。'); form.elements.reflection.focus(); return; }
+
+    btn.disabled = true;
+    btnLabel.textContent = '正在飛往 B612…';
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || '送出失敗，請稍後再試。');
+      form.classList.add('hide');
+      thanks.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      showError(err.message === 'Failed to fetch' ? '網路好像斷了，請檢查連線後再試一次。' : err.message);
+    } finally {
+      btn.disabled = false;
+      btnLabel.textContent = '寄出這封信';
+    }
+  });
+
+  document.getElementById('again').addEventListener('click', () => {
+    const keepCourse = form.elements.course.value;
+    form.reset();
+    form.elements.course.value = keepCourse;
+    paint(0);
+    ratingText.textContent = '點一顆星星，告訴我們這堂課的亮度。';
+    document.querySelectorAll('.count').forEach(c => { c.textContent = '0 / 2000'; });
+    thanks.classList.remove('show');
+    form.classList.remove('hide');
+  });
+})();
+</script>
+</body>
+</html>
